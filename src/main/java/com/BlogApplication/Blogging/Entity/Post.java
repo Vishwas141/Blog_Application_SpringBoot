@@ -1,19 +1,31 @@
 package com.BlogApplication.Blogging.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.Date;
 
 @Entity
 @Data
 public class Post {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
+
+
     private String title;
     private String content;
-    private String author;
+    private String imageName;
     private String date;
+    private Date addedDate;
+
+    @ManyToOne
+
+    private Category category;
+
+    @ManyToOne
+    private User user;
 
 
 }
