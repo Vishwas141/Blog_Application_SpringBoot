@@ -17,7 +17,7 @@ public class Post {
     private String title;
     private String content;
     private String imageName;
-    private String date;
+
     private Date addedDate;
 
     @ManyToOne

@@ -97,7 +97,7 @@ public class UserServiceImplementation implements UserService
 
     }
 
-    private User dtoToUser(UserDto user )
+    public User dtoToUser(UserDto user )
     {
         User userc=new User();
         userc.setId(user.getId());
@@ -108,7 +108,7 @@ public class UserServiceImplementation implements UserService
         return userc;
     }
 
-    private UserDto userToDto(User user)
+    public UserDto userToDto(User user)
     {
         UserDto userc=new UserDto();
         userc.setId(user.getId());

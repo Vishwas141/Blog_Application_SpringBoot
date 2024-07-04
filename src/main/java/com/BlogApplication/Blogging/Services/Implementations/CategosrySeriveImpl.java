@@ -66,7 +66,7 @@ public class CategosrySeriveImpl  implements CategoryService {
         return categoryDtoList;
     }
 
-    private Category dtotoEntity(CategoryDto dto) {
+    public Category dtotoEntity(CategoryDto dto) {
         Category category = new Category();
         category.setCategoryDescription(dto.getCategoryDescription());
         category.setCategoryTitle(dto.getCategoryTitle());
@@ -74,7 +74,7 @@ public class CategosrySeriveImpl  implements CategoryService {
 
     }
 
-    private CategoryDto EntitytoDto(Category dto) {
+    public CategoryDto EntitytoDto(Category dto) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(dto.getCategoryId());
         categoryDto.setCategoryDescription(dto.getCategoryDescription());
