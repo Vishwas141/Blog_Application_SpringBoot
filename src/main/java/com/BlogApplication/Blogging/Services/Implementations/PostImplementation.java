@@ -101,27 +101,25 @@ public class PostImplementation  implements PostService
         return post;
     }
 
-    public PostDto posttoPostDto(Post post)
-    {
-
+    public PostDto posttoPostDto(Post post) {
         PostDto postDto = new PostDto();
         postDto.setContent(post.getContent());
         postDto.setTitle(post.getTitle());
 
-        CategosrySeriveImpl categories=new CategosrySeriveImpl();
-        CategoryDto categoryDto=categories.EntitytoDto(post.getCategory());
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(post.getCategory().getCategoryId());
 
         postDto.setCategory(categoryDto);
 
-        UserServiceImplementation userServiceImplementation=new UserServiceImplementation();
-        UserDto user=userServiceImplementation.userToDto(post.getUser());
-
-        postDto.setUser(user);
-
+        UserDto userDto = new UserDto();
+        userDto.setId(post.getUser().getId());
+        userDto.setName(post.getUser().getName());
+        postDto.setUser(userDto);
 
         postDto.setAddedDate(post.getAddedDate());
-        post.setUser(post.getUser());
-        System.out.println("Hello we are in covertor");
+        postDto.setImageName(post.getImageName());
         return postDto;
     }
+
+
 }
