@@ -14,6 +14,7 @@ import com.BlogApplication.Blogging.Services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class PostImplementation  implements PostService
 
         Post createdPost=this.postrepo.save(p);
 
-        System.out.println("CREATED POST");
+
         System.out.println(createdPost);
 
 
@@ -58,37 +59,80 @@ public class PostImplementation  implements PostService
     }
 
     @Override
-    public Post updatePost(PostDto post, int PostId) {
-        return null;
+    public PostDto updatePost(PostDto post, int PostId) {
+
+        Post posttobeUpdated=this.postrepo.findById(PostId).orElseThrow(()->new ResourceNotFoundException("Post ","Post id",PostId));
+
+        posttobeUpdated.setTitle(post.getTitle());
+        posttobeUpdated.setContent(post.getContent());
+        posttobeUpdated.setAddedDate(post.getAddedDate());
+        posttobeUpdated.setImageName(post.getImageName());
+        Post updatedPost=this.postrepo.save(posttobeUpdated);
+        return this.posttoPostDto(updatedPost);
     }
 
     @Override
-    public void deletePost(int PostId) {
+    public void deletePost(int PostId)
+    {
+      Post post=this.postrepo.findById(PostId).orElseThrow(()->new ResourceNotFoundException("Post ","Post id",PostId));
+      this.postrepo.delete(post);
+      return ;
+
+    }
+
+
+    @Override
+    public List<PostDto> getAllPosts()
+    {
+        List<Post> posts=this.postrepo.findAll();
+        List<PostDto> postDtos=new ArrayList<PostDto>();
+        for(Post post:posts)
+        {
+            postDtos.add(this.posttoPostDto(post));
+        }
+        return postDtos;
+    }
+
+    @Override
+    public PostDto getPostById(int PostId) {
+        Post post=this.postrepo.findById(PostId).orElseThrow(()->new ResourceNotFoundException("Post ","Post id",PostId));
+
+        return this.posttoPostDto(post);
 
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        return List.of();
+    public List<PostDto> getPostsByCategory(Integer categoryId) {
+       Category cat=this.categoryRepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category ","Category id",categoryId));
+       List<Post> posts=this.postrepo.findByCategory(cat);
+
+       List<PostDto> postDtos=new ArrayList<>();
+       for(Post post:posts)
+       {
+           postDtos.add(this.posttoPostDto(post));
+
+       }
+
+        return postDtos;
     }
 
     @Override
-    public Post getPostById(int PostId) {
-        return null;
+    public List<PostDto> getPostByUser(Integer userId) {
+        User user=this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User ","User id",userId));
+
+        List<Post> post=this.postrepo.findAllByUser(user);
+        List<PostDto> postDtos=new ArrayList<>();
+
+        for(Post post2:post)
+        {
+            postDtos.add(this.posttoPostDto(post2));
+
+        }
+        return postDtos;
     }
 
     @Override
-    public List<Post> getPostsByCategory(Integer categoryId) {
-        return List.of();
-    }
-
-    @Override
-    public List<Post> getPostByUser(Integer userId) {
-        return List.of();
-    }
-
-    @Override
-    public List<Post> searchPosts(String keyword) {
+    public List<PostDto> searchPosts(String keyword) {
         return List.of();
     }
 
@@ -108,12 +152,19 @@ public class PostImplementation  implements PostService
 
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(post.getCategory().getCategoryId());
+        categoryDto.setCategoryTitle(post.getCategory().getCategoryTitle());
+        categoryDto.setCategoryDescription(post.getCategory().getCategoryDescription());
 
         postDto.setCategory(categoryDto);
 
         UserDto userDto = new UserDto();
         userDto.setId(post.getUser().getId());
         userDto.setName(post.getUser().getName());
+        userDto.setEmail(post.getUser().getEmail());
+        userDto.setPassword(post.getUser().getPassword());
+        userDto.setAbout(post.getUser().getAbout());
+
+
         postDto.setUser(userDto);
 
         postDto.setAddedDate(post.getAddedDate());

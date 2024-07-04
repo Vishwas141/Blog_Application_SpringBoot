@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class PostController
@@ -25,6 +27,49 @@ public class PostController
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
 
     }
+
+    @GetMapping("/user/{userId}/posts")
+    public ResponseEntity<List<PostDto>> GetPostByUser(@PathVariable int userId)
+    {
+         List<PostDto>list=postService.getPostByUser(userId);
+         return new ResponseEntity<>(list, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/posts/{postId}")
+
+    public ResponseEntity<String> deletePost(@PathVariable int postId)
+    {
+        postService.deletePost(postId);
+        return new ResponseEntity<>("Post deleted", HttpStatus.OK);
+
+    }
+
+    @GetMapping("/category/{categoryId}/posts")
+    public  ResponseEntity<List<PostDto>> GetPostByU(@PathVariable int categoryId)
+    {
+        List<PostDto>list= postService.getPostByUser(categoryId);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/{postId}")
+    public ResponseEntity<PostDto> GetPostById(@PathVariable int postId)
+    {
+        PostDto postDto=postService.getPostById(postId);
+        return new ResponseEntity<>(postDto, HttpStatus.OK);
+
+    }
+
+    @PutMapping("/post/{postId}")
+    public ResponseEntity<PostDto> UpdatePost(@RequestBody PostDto postdto,@PathVariable int postId)
+    {
+        PostDto updatedPost=postService.updatePost(postdto,postId);
+        return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+
+    }
+
+
+
 
 
 }

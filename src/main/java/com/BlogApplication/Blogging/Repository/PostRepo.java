@@ -12,8 +12,9 @@ import java.util.List;
 @Component
 public interface PostRepo extends JpaRepository<Post, Integer>
 {
-//    List<Post> findAllBy(User user);
-//    List<Post> findByCategory(Category category);
+    List<Post> findAllByUser(User user);
+
+    List<Post> findByCategory(Category category);
 }
 
 
