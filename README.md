@@ -4,7 +4,7 @@ This is a simple Blog Application built using Spring Boot. It allows users to re
 
 ## Table of Contents
 
-- [Prerequisites](#prerequisites)
+
 - [Project Setup](#project-setup)
 - [Running the Application](#running-the-application)
 - [Endpoints](#endpoints)
